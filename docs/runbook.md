@@ -150,6 +150,34 @@ Expected:
 - no `closed` breweries
 - valid `brewery_count`
 
+## Operational Checks
+
+### Confirm Bronze output was written
+
+```bash
+find data/bronze/openbrewerydb -type f | sort
+```
+
+### Confirm Silver Delta output exists
+
+```bash
+find data/silver/openbrewerydb/breweries_curated -type f | sort
+```
+
+### Confirm Gold Delta output exists
+
+```bash
+find data/gold/openbrewerydb/active_breweries_by_type_location -type f | sort
+```
+
+### Confirm Airflow tasks finished successfully
+
+In the Airflow UI, verify the following tasks are green:
+
+1. `bronze_ingestion`
+2. `silver_transformation`
+3. `gold_aggregation`
+
 ## Common Checks
 
 ### Check Docker services
@@ -168,6 +196,26 @@ docker compose -f docker/docker-compose.yml logs airflow-webserver airflow-sched
 
 ```bash
 docker compose -f docker/docker-compose.yml run --rm app python -m bees_breweries --command bootstrap
+```
+
+### Re-run only one layer manually
+
+Bronze:
+
+```bash
+docker compose -f docker/docker-compose.yml run --rm app python -m bees_breweries --command bronze-ingest --max-pages 1
+```
+
+Silver:
+
+```bash
+docker compose -f docker/docker-compose.yml run --rm app python -m bees_breweries --command silver-transform
+```
+
+Gold:
+
+```bash
+docker compose -f docker/docker-compose.yml run --rm app python -m bees_breweries --command gold-transform
 ```
 
 ## Troubleshooting

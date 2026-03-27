@@ -47,6 +47,8 @@ class GoldAggregator:
 
     @staticmethod
     def _build_gold_dataframe(silver_df):
+        # Gold intentionally represents only active breweries for business consumption.
+        # Records marked as "closed" remain available in Silver but are excluded here.
         active_df = silver_df.filter(F.lower(F.col("brewery_type")) != "closed")
 
         return (

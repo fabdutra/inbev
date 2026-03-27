@@ -83,6 +83,8 @@ class SilverTransformer:
         )
 
     def _build_silver_dataframe(self, breweries_df: DataFrame, request_logs_df: DataFrame) -> DataFrame:
+        # Join Bronze business records with request-log metadata so the curated layer
+        # keeps operational traceability back to the extraction event.
         joined_df = breweries_df.join(
             request_logs_df,
             on=[
@@ -120,6 +122,8 @@ class SilverTransformer:
             F.col("status_code").alias("source_status_code"),
         )
 
+        # Normalize strings before hashing and deduplication so semantically equivalent
+        # records do not diverge only because of blank values or extra whitespace.
         normalized_df = self._normalize_strings(selected_df).withColumn(
             "record_hash",
             F.sha2(
@@ -151,6 +155,9 @@ class SilverTransformer:
             ),
         )
 
+        # Silver is modeled as a current-state curated layer. When the same brewery id
+        # appears multiple times, keep the latest record based on request timestamp and
+        # fallback ordering fields extracted from the Bronze file path.
         window = Window.partitionBy("id").orderBy(
             F.col("source_requested_at_utc").desc_nulls_last(),
             F.col("extract_date").desc(),

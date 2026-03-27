@@ -27,6 +27,8 @@ class SparkSessionFactory:
 
     @staticmethod
     def _ensure_java_environment() -> None:
+        """Default JAVA_HOME for local/Homebrew execution when it is not already set."""
+
         if os.getenv("JAVA_HOME"):
             return
 

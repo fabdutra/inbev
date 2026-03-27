@@ -66,7 +66,7 @@ class DataQualityValidator:
             raise ValueError(f"Data quality validation failed: {joined}")
 
     def validate_gold(self, dataframe: DataFrame) -> list[ValidationResult]:
-        """Run a focused set of Gold data quality checks."""
+        """Run Gold checks, including the active-breweries business rule."""
 
         row_count = dataframe.count()
         negative_count = dataframe.filter(F.col("brewery_count") < 0).count() if row_count else 0

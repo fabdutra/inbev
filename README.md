@@ -156,7 +156,9 @@ docker/
 
 docs/
   DE_Case_Atualizado.pdf
-  SOLUTION_BLUEPRINT.md
+  architecture.md
+  monitoring.md
+  runbook.md
 ```
 
 ## Pipeline Commands
@@ -355,5 +357,7 @@ Verified manually:
 
 ## Additional Documentation
 
-- Solution blueprint: [docs/SOLUTION_BLUEPRINT.md](./docs/SOLUTION_BLUEPRINT.md)
+- Architecture: [docs/architecture.md](./docs/architecture.md)
+- Monitoring and alerting: [docs/monitoring.md](./docs/monitoring.md)
+- Runbook: [docs/runbook.md](./docs/runbook.md)
 - Original case PDF: [docs/DE_Case_Atualizado.pdf](./docs/DE_Case_Atualizado.pdf)
