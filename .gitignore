@@ -205,3 +205,25 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# macOS
+.DS_Store
+
+# Local pipeline artifacts
+.airflow/
+logs/
+spark-warehouse/
+metastore_db/
+
+# Data lake outputs
+data/bronze/**
+data/silver/**
+data/gold/**
+!data/bronze/.gitkeep
+!data/silver/.gitkeep
+!data/gold/.gitkeep
+
+# Local study notes
+STEP_*_GUIDE.md
+SOLUTION_BLUEPRINT.md
+my-notes.md
